@@ -1,0 +1,50 @@
+.radio-card ul {
+  padding-inline-start: 10px;
+  margin-top: -5px;
+}
+
+.detail li {
+  list-style-type: none;
+  line-height: normal;
+}
+
+.detail-text {
+  color: #E36414;
+  line-height: 0.5rem;
+}
+
+.title {
+  color: #FB8B24;
+}
+
+input[type="radio"] {
+  opacity: 0;
+  position: absolute;
+}
+
+input[type=radio]:not(:disabled) ~ label {
+  cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  background-image: linear-gradient(to top left, #364658, #5F0F40);
+}
+
+label.radio-card{
+  background-color: #364658;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.check {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 30px;
+  margin-bottom: 40px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 50%;
+}

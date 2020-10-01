@@ -1,0 +1,47 @@
+.card ul {
+  padding-inline-start: 10px;
+}
+
+.card li {
+  list-style-type: none;
+  line-height: normal;
+}
+
+.card-text {
+  color: #E36414;
+}
+
+.card-title {
+  color: #FB8B24;
+}
+
+.card {
+  background-color: #364658;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.card-body ul {
+  margin-top: -10px;
+}
+
+.edit-delete {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.edit-delete a {
+  color: inherit;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: #9A031E;
+}

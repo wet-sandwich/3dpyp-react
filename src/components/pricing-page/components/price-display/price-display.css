@@ -1,0 +1,11 @@
+.price-display {
+  text-align: center;
+  background-image: linear-gradient(#5F0F40, rgba(154,3,30,0.99));
+  color: #FB8B24;
+  min-height: 150px;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 999;
+  padding-top: 20px;
+}
