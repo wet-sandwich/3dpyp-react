@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class DbAPI {
   constructor() {
-    this.baseURL = "http://localhost:5000/";
+    this.baseURL = "/api/";
     this.printersURL = this.baseURL + "printers/";
     this.filamentsURL = this.baseURL + "filaments/";
     this.hotendsURL = this.baseURL + "hotends/";
