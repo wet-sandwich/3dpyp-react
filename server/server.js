@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = "mongodb://localhost:27017/3dpyp";
+const uri = process.env.MONGO_URI || "mongodb://localhost:27017/3dpyp";
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
