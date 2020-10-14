@@ -7,7 +7,7 @@ export default function PriceDisplay(props) {
     <div className="price-display">
       { (props.price === 0 || isNaN(props.price))
         ? <h1>Pricing Calculator</h1>
-        : <h2>Print price is: ${props.price.toFixed(2)}</h2>
+        : <h1>Print price is: ${props.price.toFixed(2)}</h1>
       }
     </div>
   );

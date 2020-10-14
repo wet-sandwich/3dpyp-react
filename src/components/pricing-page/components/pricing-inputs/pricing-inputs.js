@@ -2,23 +2,20 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { CardSelect, SelectableCard } from '../../../card-select';
 import PriceDisplay from '../price-display';
 import { MaterialSelect, SizeSelect, BrandSelect, ColorSelect } from '../../../dropdowns';
+import { useFilters, useSelection, usePrintPrice } from './hooks';
 import DbAPI from '../../../../utils/db-api';
 
 var DatabaseAPI = new DbAPI();
 
 export default function PricingInputs() {
-  const [sizeFilter, setSizeFilter] = useState("");
-  const [materialFilter, setMaterialFilter] = useState("");
-  const [brandFilter, setBrandFilter] = useState("");
-  const [colorFilter, setColorFilter] = useState("");
+  const [filtersState, {setFilter, resetFilters}] = useFilters();
+  const [selectionState, {setSelectedPrinter, setSelectedFilament, minPrintTemp, minBedTemp}] = useSelection();
   const [printers, setPrinters] = useState([]);
   const [filament, setFilament] = useState([]);
-  const [selectedPrinter, setSelectedPrinter] = useState('');
-  const [selectedFilament, setSelectedFilament] = useState('');
-  const [filamentAmount, setFilamentAmount] = useState('');
-  const [printTime, setPrintTime] = useState('');
-  const [maintenancePercentage, setMaintenancePercentage] = useState('');
-  const [printPrice, setPrintPrice] = useState(0);
+  const [printPrice, {totalPrice, updatePrice}] = usePrintPrice();
+  const [filamentAmount, setFilamentAmount] = useState("");
+  const [printTime, setPrintTime] = useState("");
+  const [overhead, setOverhead] = useState({maintenance: "", failRate: ""});
   const [dataLists, setDataLists] = useState({brand: [], color: []});
 
   useEffect(() => {
@@ -28,18 +25,31 @@ export default function PricingInputs() {
   }, []);
 
   useEffect(() => {
-    let deprCost = (selectedPrinter.cost / selectedPrinter.life * printTime) || 0;
-    let filamentCost = (selectedFilament.cost * filamentAmount / 1000) || 0;
-    let maintCost = deprCost * maintenancePercentage / 100;
-    setPrintPrice(deprCost + filamentCost + maintCost);
-  }, [selectedFilament, selectedPrinter, filamentAmount, printTime, maintenancePercentage]);
+    updatePrice({
+      filament: selectionState.filament,
+      amount: filamentAmount,
+      printer: selectionState.printer,
+      time: printTime,
+      overhead: overhead,
+    });
+  }, [selectionState.filament, selectionState.printer, filamentAmount, printTime, overhead]);
+
+  function updateOverhead(event) {
+    const {name, value} = event.target;
+    setOverhead(prev => {
+      return {
+        ...prev,
+        [name]: value
+      };
+    });
+  }
 
   function filamentList() {
     return filament.map(doc => {
-      if ((doc.size.toString() === sizeFilter || sizeFilter === "") &&
-          (doc.material === materialFilter || materialFilter === "") &&
-          (doc.brand === brandFilter || brandFilter === "") &&
-          (doc.color === colorFilter || colorFilter === "")) {
+      if ((doc.size.toString() === filtersState.size || filtersState.size === "") &&
+          (doc.material === filtersState.material || filtersState.material === "") &&
+          (doc.brand === filtersState.brand || filtersState.brand === "") &&
+          (doc.color === filtersState.color || filtersState.color === "")) {
         let details = [
           `${doc.brand} ${doc.name ?? ""}`,
           `$${doc.cost.toFixed(2)}/kg`,
@@ -52,14 +62,14 @@ export default function PricingInputs() {
             name={'filament'}
             title={`${doc.color} ${doc.material}`}
             body={details}
-            selected={selectedFilament._id === doc._id}
-            handleOnChange={() => setSelectedFilament(filament.find(item => item._id === doc._id))}
+            selected={selectionState.filament._id === doc._id}
+            handleOnChange={() => setSelectedFilament(doc)}
           />
         );
       } else {
         return null;
       }
-    });
+    }).filter(item => item !== null);
   }
 
   function printerList() {
@@ -76,50 +86,58 @@ export default function PricingInputs() {
           name={'printer'}
           title={doc.make + " " + doc.name}
           body={details}
-          selected={selectedPrinter._id === doc._id}
-          handleOnChange={(e) => setSelectedPrinter(printers.find(item => item._id === doc._id))}
+          selected={selectionState.printer._id === doc._id}
+          handleOnChange={e => setSelectedPrinter(doc)}
+          disable={(minPrintTemp > doc.hotend.maxTemp) || (minBedTemp > doc.maxBedTemp) || !(doc.hotend.size === (selectionState.filament !== "" ? selectionState.filament.size : doc.hotend.size))}
         />
       );
     });
   }
 
   return (
-    <div className="container">
-      <PriceDisplay price={printPrice} />
-      <br/>
-      <h2>Filament</h2>
-      <hr/>
-      <div className="form-group">
-        <MaterialSelect firstOption={"All"} value={materialFilter} onChange={(e) => setMaterialFilter(e.target.value)} />
-        <BrandSelect value={brandFilter} brands={dataLists.brand} onChange={(e) => setBrandFilter(e.target.value)} />
-        <ColorSelect value={colorFilter} colors={dataLists.color} onChange={(e) => setColorFilter(e.target.value)} />
-        <SizeSelect firstOption={"All"} value={sizeFilter} onChange={(e) => setSizeFilter(e.target.value)} />
-      </div>
-      <CardSelect cards={filamentList().filter(item => item !== null)} />
-      <br/>
-      <h2>Printer</h2>
-      <hr/>
-      <CardSelect cards={printerList()} />
-      <br/>
-      <h2>Print</h2>
-      <hr/>
-      <div className="form-group">
-        <label>Filament Used
-          <input className="form-control" type="number" name="filamentUsed" value={filamentAmount} placeholder="grams" min="0" onChange={(e) => setFilamentAmount(e.target.value)}/>
-        </label>
-      </div>
-      <div className="form-group">
-        <label>Print Time
-          <input className="form-control" type="number" name="printTime" value={printTime} placeholder="hours" min="0" onChange={(e) => setPrintTime(e.target.value)}/>
-        </label>
-      </div>
-      <br/>
-      <h2>Overhead</h2>
-      <hr/>
-      <div className="form-group">
-        <label>Maintenance
-          <input className="form-control" type="number" name="maintenance" value={maintenancePercentage} placeholder="percentage" min="0" max="100" onChange={(e) => setMaintenancePercentage(e.target.value)}/>
-        </label>
+    <div>
+      <PriceDisplay price={totalPrice} />
+      <div className="container">
+        <br/>
+        <h2>Filament</h2>
+        <hr/>
+        <div className="form-group">
+          <MaterialSelect firstOption={"All"} value={filtersState.material} onChange={e => setFilter("material", e.target.value)} />
+          <BrandSelect value={filtersState.brand} brands={dataLists.brand !== undefined ? dataLists.brand : []} onChange={e => setFilter("brand", e.target.value)}
+          />
+          <ColorSelect value={filtersState.color} colors={dataLists.color !== undefined ? dataLists.color : []} onChange={e => setFilter("color", e.target.value)} />
+          <SizeSelect firstOption={"All"} value={filtersState.size} onChange={e => setFilter("size", e.target.value)} />
+          <button className="btn btn-primary" onClick={resetFilters}>Reset</button>
+        </div>
+        <CardSelect cards={filamentList()} />
+        <br/>
+        <h2>Printer</h2>
+        <hr/>
+        <CardSelect cards={printerList()} />
+        <br/>
+        <h2>Print</h2>
+        <hr/>
+        <div className="form-group">
+          <label>Filament Used:
+            <input className="form-control" type="number" name="filamentUsed" value={filamentAmount} placeholder="grams" min="0" onChange={(e) => setFilamentAmount(e.target.value)}/>
+          </label>
+        </div>
+        <div className="form-group">
+          <label>Print Time:
+            <input className="form-control" type="number" name="printTime" value={printTime} placeholder="hours" min="0" onChange={(e) => setPrintTime(e.target.value)}/>
+          </label>
+        </div>
+        <br/>
+        <h2>Overhead</h2>
+        <hr/>
+        <div className="form-group">
+          <label className="mr-4">Maintenance:
+            <input className="form-control" type="number" name="maintenance" value={overhead.maintenance} placeholder="percentage" min="0" max="100" onChange={updateOverhead}/>
+          </label>
+          <label>Failed prints:
+            <input className="form-control" type="number" name="failRate" value={overhead.failRate} placeholder="percentage" min="0" max="100" onChange={updateOverhead}/>
+          </label>
+        </div>
       </div>
     </div>
   );
