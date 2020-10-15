@@ -25,7 +25,6 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 app.use('/api/filaments', require('./routes/filaments-router'));
 app.use('/api/printers', require('./routes/printers-router'));
-app.use('/api/hotends', require('./routes/hotends-router'));
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));

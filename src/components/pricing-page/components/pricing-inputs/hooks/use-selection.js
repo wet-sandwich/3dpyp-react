@@ -10,9 +10,9 @@ function selectionReducer(state, action) {
   switch (type) {
     case SET_FILAMENT: {
       if (state.printer !== "") {
-        if ((item.printTemp[0] > printer.hotend.maxTemp) ||
+        if ((item.printTemp[0] > printer.maxPrintTemp) ||
             (item.minBedTemp > printer.maxBedTemp) ||
-            !(printer.hotend.size === item.size)) {
+            !(printer.size === item.size)) {
               return {
                 filament: item,
                 printer: "",

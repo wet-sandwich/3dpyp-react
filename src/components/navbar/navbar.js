@@ -24,9 +24,6 @@ function Navbar() {
           <li className="navbar-item">
             <NavLink to="/printers" className="nav-link">Printers</NavLink>
           </li>
-          <li className="navbar-item">
-            <NavLink to="/hotends" className="nav-link">Hotends</NavLink>
-          </li>
         </ul>
       </div>
     </nav>

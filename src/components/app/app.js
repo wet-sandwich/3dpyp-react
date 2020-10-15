@@ -6,7 +6,6 @@ import { Route, Switch } from 'react-router-dom';
 import Navbar from '../navbar';
 import Footer from '../footer';
 import HomePage from '../home-page';
-import HotendPage from '../hotend-page';
 import PrinterPage from '../printer-page';
 import PricingPage from '../pricing-page';
 import FilamentPage from '../filament-page';
@@ -25,9 +24,6 @@ function App() {
           </Route>
           <Route path="/printers">
             <PrinterPage />
-          </Route>
-          <Route path="/hotends">
-            <HotendPage />
           </Route>
           <Route path="/calculator">
             <PricingPage />

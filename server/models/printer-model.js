@@ -9,7 +9,8 @@ const printerSchema = new mongoose.Schema({
   motion: String,
   maxBedTemp: Number,
   drive: String,
-  hotend: {type: mongoose.Schema.Types.ObjectId, ref: 'Hotend'},
+  size: Number,
+  maxPrintTemp: Number,
 });
 
 module.exports = mongoose.model('Printer', printerSchema);

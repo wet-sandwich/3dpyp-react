@@ -88,24 +88,4 @@ export default class DbAPI {
     });
     this._read(this.filamentsURL + queryString, onSuccess);
   }
-
-  getHotends(onSuccess) {
-    this._read(this.hotendsURL, onSuccess);
-  }
-
-  getHotend(id, onSuccess) {
-    this._read(this.hotendsURL + id, onSuccess);
-  }
-
-  addHotend(hotend, onSuccess) {
-    this._create(this.hotendsURL, hotend, onSuccess);
-  }
-
-  updateHotend(id, hotend, onSuccess) {
-    this._update(this.hotendsURL + id, hotend, onSuccess);
-  }
-
-  deleteHotend(id, onSuccess) {
-    this._delete(this.hotendsURL + id, onSuccess);
-  }
 }

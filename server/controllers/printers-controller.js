@@ -2,14 +2,12 @@ const Printer = require('../models/printer-model');
 
 exports.printer_index = function(req, res) {
   Printer.find()
-    .populate('hotend')
     .then(printers => res.json(printers))
     .catch(err => res.status(400).json('Error: ' + err));
 }
 
 exports.printer_detail = function(req, res) {
   Printer.findById(req.params.id)
-    .populate('hotend')
     .then(printer => res.json(printer))
     .catch(err => res.status(400).json('Error: ' + err));
 }
@@ -24,7 +22,8 @@ exports.printer_create = function(req, res) {
     motion: req.body.motion,
     drive: req.body.drive,
     maxBedTemp: req.body.maxBedTemp,
-    hotend: req.body.hotend,
+    size: req.body.size,
+    maxPrintTemp: req.body.maxPrintTemp,
   });
 
   newPrinter.save()
@@ -42,7 +41,8 @@ exports.printer_update = function(req, res) {
     motion: req.body.motion,
     drive: req.body.drive,
     maxBedTemp: req.body.maxBedTemp,
-    hotend: req.body.hotend,
+    size: req.body.size,
+    maxPrintTemp: req.body.maxPrintTemp,
   })
     .then(() => res.json('Printer updated!'))
     .catch(err => res.status(400).json('Error: ' + err));

@@ -26,8 +26,7 @@ export default function PrinterList() {
       let details = [
         (doc.cost/doc.life).toFixed(3),
         `${doc.type} | ${doc.motion} | ${doc.drive}`,
-        `${doc.hotend.make} ${doc.hotend.name}`,
-        <Fragment>{doc.hotend.maxTemp}&deg;C / {doc.maxBedTemp}&deg;C</Fragment>,
+        <Fragment>{doc.maxPrintTemp}&deg;C | {doc.maxBedTemp}&deg;C</Fragment>,
       ];
       return (
         <ProductCard

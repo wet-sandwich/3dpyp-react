@@ -77,7 +77,7 @@ export default function PricingInputs() {
       let details = [
         `${(doc.cost/doc.life).toFixed(3)} $/hr`,
         `${doc.type} | ${doc.motion} | ${doc.drive}`,
-        <Fragment>{doc.hotend.maxTemp}&deg;C / {doc.maxBedTemp}&deg;C</Fragment>,
+        <Fragment>{doc.maxPrintTemp}&deg;C / {doc.maxBedTemp}&deg;C</Fragment>,
       ];
       return (
         <SelectableCard
@@ -88,7 +88,7 @@ export default function PricingInputs() {
           body={details}
           selected={selectionState.printer._id === doc._id}
           handleOnChange={e => setSelectedPrinter(doc)}
-          disable={(minPrintTemp > doc.hotend.maxTemp) || (minBedTemp > doc.maxBedTemp) || !(doc.hotend.size === (selectionState.filament !== "" ? selectionState.filament.size : doc.hotend.size))}
+          disable={(minPrintTemp > doc.maxPrintTemp) || (minBedTemp > doc.maxBedTemp) || !(doc.size === (selectionState.filament !== "" ? selectionState.filament.size : doc.size))}
         />
       );
     });
