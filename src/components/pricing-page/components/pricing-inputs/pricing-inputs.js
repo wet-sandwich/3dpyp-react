@@ -106,7 +106,7 @@ export default function PricingInputs() {
           <BrandSelect value={filtersState.brand} brands={dataLists.brand !== undefined ? dataLists.brand : []} onChange={e => setFilter("brand", e.target.value)} />
           <ColorSelect value={filtersState.color} colors={dataLists.color !== undefined ? dataLists.color : []} onChange={e => setFilter("color", e.target.value)} />
           <SizeSelect firstOption={"All"} value={filtersState.size} onChange={e => setFilter("size", e.target.value)} />
-          <button className="btn btn-primary" onClick={resetFilters}>Reset</button>
+          <button className="btn btn-primary" onClick={resetFilters}>Reset Filters</button>
         </div>
         <CardSelect cards={filamentList()} />
         <br/>

@@ -1,14 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../context/user';
+import axios from 'axios';
 
 export default function HomePage() {
-  const { userID } = useUser();
+  const { userID, setUserID } = useUser();
+
+  function submit(event) {
+    const uid = `demo@${Math.random().toString(16).substr(2, 8)}`;
+    event.preventDefault();
+    axios.post("/auth/demo", {
+      email: uid,
+      password: "demo",
+    }, { withCredentials: true })
+      .then(result => {
+        if (result.status === 200) {
+          setUserID(result.data);
+          window.location = "/calculator";
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const demoLoginLink = (
     <div className="row">
       <div className="col-sm my-4">
-        <form>
+        <form onSubmit={submit}>
           <p>Want to see how it works?</p>
           <button type="submit" name="submit" className="btn btn-primary btn-lg">Try the demo</button>
         </form>
