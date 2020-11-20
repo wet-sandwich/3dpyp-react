@@ -12,9 +12,6 @@ export default function CreatePrinter() {
   }
 
   return (
-    <div className="container mt-4">
-      <h1>New Printer</h1>
-      <PrinterForm submitForm={submit} />
-    </div>
+    <PrinterForm title={"New Printer"} submitForm={submit} />
   );
 }

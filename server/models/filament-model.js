@@ -24,6 +24,7 @@ const filamentSchema = new mongoose.Schema({
   },
   printTemp: Array,
   bedTemp: Array,
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 
 module.exports = mongoose.model("Filament", filamentSchema);

@@ -13,9 +13,6 @@ export default function UpdatePrinter() {
   }
 
   return (
-    <div className="container mt-4">
-      <h1>Update Printer</h1>
-      <PrinterForm id={printerId} submitForm={submit} />
-    </div>
+    <PrinterForm title={"Update Printer"} id={printerId} submitForm={submit} />
   );
 }

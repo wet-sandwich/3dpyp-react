@@ -1,10 +1,11 @@
 .card ul {
-  padding-inline-start: 10px;
+  padding-left: 0;
 }
 
 .card li {
   list-style-type: none;
   line-height: normal;
+  margin-top: 2px;
 }
 
 .card-text {

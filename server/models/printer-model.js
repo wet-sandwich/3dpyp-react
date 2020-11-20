@@ -11,6 +11,7 @@ const printerSchema = new mongoose.Schema({
   drive: String,
   size: Number,
   maxPrintTemp: Number,
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 
 module.exports = mongoose.model('Printer', printerSchema);

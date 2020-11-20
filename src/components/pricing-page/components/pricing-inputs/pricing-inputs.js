@@ -12,7 +12,7 @@ export default function PricingInputs() {
   const [selectionState, {setSelectedPrinter, setSelectedFilament, minPrintTemp, minBedTemp}] = useSelection();
   const [printers, setPrinters] = useState([]);
   const [filament, setFilament] = useState([]);
-  const [printPrice, {totalPrice, updatePrice}] = usePrintPrice();
+  const [priceBreakdown, {totalPrice, updatePrice}] = usePrintPrice();
   const [filamentAmount, setFilamentAmount] = useState("");
   const [printTime, setPrintTime] = useState("");
   const [overhead, setOverhead] = useState({maintenance: "", failRate: ""});
@@ -75,8 +75,8 @@ export default function PricingInputs() {
   function printerList() {
     return printers.map(doc => {
       let details = [
-        `${(doc.cost/doc.life).toFixed(3)} $/hr`,
-        `${doc.type} | ${doc.motion} | ${doc.drive}`,
+        `$${(doc.cost/doc.life).toFixed(3)}/hr`,
+        `${doc.size}mm | ${doc.motion} | ${doc.drive}`,
         <Fragment>{doc.maxPrintTemp}&deg;C / {doc.maxBedTemp}&deg;C</Fragment>,
       ];
       return (
@@ -103,8 +103,7 @@ export default function PricingInputs() {
         <hr/>
         <div className="form-group">
           <MaterialSelect firstOption={"All"} value={filtersState.material} onChange={e => setFilter("material", e.target.value)} />
-          <BrandSelect value={filtersState.brand} brands={dataLists.brand !== undefined ? dataLists.brand : []} onChange={e => setFilter("brand", e.target.value)}
-          />
+          <BrandSelect value={filtersState.brand} brands={dataLists.brand !== undefined ? dataLists.brand : []} onChange={e => setFilter("brand", e.target.value)} />
           <ColorSelect value={filtersState.color} colors={dataLists.color !== undefined ? dataLists.color : []} onChange={e => setFilter("color", e.target.value)} />
           <SizeSelect firstOption={"All"} value={filtersState.size} onChange={e => setFilter("size", e.target.value)} />
           <button className="btn btn-primary" onClick={resetFilters}>Reset</button>
@@ -131,11 +130,11 @@ export default function PricingInputs() {
         <h2>Overhead</h2>
         <hr/>
         <div className="form-group">
-          <label className="mr-4">Maintenance:
-            <input className="form-control" type="number" name="maintenance" value={overhead.maintenance} placeholder="percentage" min="0" max="100" onChange={updateOverhead}/>
+          <label className="mr-2">Maintenance:
+            <input className="form-control" type="number" name="maintenance" value={overhead.maintenance} placeholder="percentage" min="0" onChange={updateOverhead}/>
           </label>
           <label>Failed prints:
-            <input className="form-control" type="number" name="failRate" value={overhead.failRate} placeholder="percentage" min="0" max="100" onChange={updateOverhead}/>
+            <input className="form-control" type="number" name="failRate" value={overhead.failRate} placeholder="percentage" min="0" onChange={updateOverhead}/>
           </label>
         </div>
       </div>

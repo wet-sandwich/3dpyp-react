@@ -25,9 +25,8 @@ export default function FilamentList() {
     return filaments.map(doc => {
       let details = [
         doc.brand,
-        doc.material,
-        doc.cost,
-        doc.size,
+        `${doc.material} (${doc.size}mm)`,
+        `$${doc.cost}/kg`,
       ];
       return (
         <ProductCard

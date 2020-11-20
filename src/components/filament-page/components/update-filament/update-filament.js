@@ -13,9 +13,6 @@ export default function UpdateFilament() {
   }
 
   return (
-    <div className="container mt-4">
-      <h1>Update Filament</h1>
-      <FilamentForm id={filamentId} submitForm={submit} />
-    </div>
+    <FilamentForm title={"Update Filament"} id={filamentId} submitForm={submit} />
   );
 }

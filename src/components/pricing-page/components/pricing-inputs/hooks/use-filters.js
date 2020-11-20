@@ -22,6 +22,10 @@ function filtersReducer(state, action) {
         size: "",
       }
     }
+
+    default: {
+      throw new Error(`Unhandled type: ${type}`)
+    }
   }
 }
 

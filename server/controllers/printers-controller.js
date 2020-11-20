@@ -1,7 +1,7 @@
 const Printer = require('../models/printer-model');
 
 exports.printer_index = function(req, res) {
-  Printer.find()
+  Printer.find({ user: req.user.id })
     .then(printers => res.json(printers))
     .catch(err => res.status(400).json('Error: ' + err));
 }
@@ -24,6 +24,7 @@ exports.printer_create = function(req, res) {
     maxBedTemp: req.body.maxBedTemp,
     size: req.body.size,
     maxPrintTemp: req.body.maxPrintTemp,
+    user: req.user.id,
   });
 
   newPrinter.save()
@@ -43,6 +44,7 @@ exports.printer_update = function(req, res) {
     maxBedTemp: req.body.maxBedTemp,
     size: req.body.size,
     maxPrintTemp: req.body.maxPrintTemp,
+    user: req.user.id,
   })
     .then(() => res.json('Printer updated!'))
     .catch(err => res.status(400).json('Error: ' + err));

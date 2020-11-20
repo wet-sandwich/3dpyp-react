@@ -1,38 +1,70 @@
-.App {
-  text-align: center;
+body {
+  background: hsla(349, 96%, 31%, 1);
+
+  background: linear-gradient(315deg, hsla(349, 96%, 31%, 0.8) 33%, hsla(323, 73%, 22%, 0.8) 100%);
+
+  background: -moz-linear-gradient(315deg, hsla(349, 96%, 31%, 0.8) 33%, hsla(323, 73%, 22%, 0.8) 100%);
+
+  background: -webkit-linear-gradient(315deg, hsla(349, 96%, 31%, 0.8) 33%, hsla(323, 73%, 22%, 0.8) 100%);
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#9A031E", endColorstr="#5F0F40", GradientType=1 );
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+label {
+  color: #FB8B24;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1, h2, h3 {
+  color: #FB8B24;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+hr {
+  border: 0;
+  height: 1px;
+  opacity: .3;
+  background-image: linear-gradient(
+    to right,
+    rgba(251,139,36,.2),
+    rgba(251,139,36,1),
+    rgba(251,139,36,.2)
+  );
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary, .btn-primary:focus {
+  color: #364658;
+  background-color: #FB8B24;
+  border-color: #FB8B24;
+  box-shadow: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-primary:hover {
+  color: #5F0F40;
+  background-color: #E36414;
+  border-color: #E36414;
+}
+
+.btn-primary:active {
+  color: #FB8B24;
+  background-color: #364658;
+  border-color: #364658;
+  box-shadow: none;
+}
+
+.form-control {
+  color: #364658;
+  background-color: #FFFAFA;
+  border-color: #FFFAFA;
+}
+
+.form-control:focus {
+  color: #364658;
+  background-color: #FFFAFA;
+  border-color: #364658;
+  /* box-shadow: 0 0 0 0.2rem rgba(227, 100, 20, 0.25); */
+  box-shadow: none;
+}
+
+.h-center {
+  margin: auto;
+  width: auto;
 }

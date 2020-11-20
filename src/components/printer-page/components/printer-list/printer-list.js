@@ -24,9 +24,10 @@ export default function PrinterList() {
   function printerList() {
     return printers.map(doc => {
       let details = [
-        (doc.cost/doc.life).toFixed(3),
+        `$${(doc.cost/doc.life).toFixed(3)} /hr`,
         `${doc.type} | ${doc.motion} | ${doc.drive}`,
-        <Fragment>{doc.maxPrintTemp}&deg;C | {doc.maxBedTemp}&deg;C</Fragment>,
+        <Fragment>{doc.maxPrintTemp}&deg;C / {doc.maxBedTemp}&deg;C</Fragment>,
+        `${doc.size}mm`,
       ];
       return (
         <ProductCard

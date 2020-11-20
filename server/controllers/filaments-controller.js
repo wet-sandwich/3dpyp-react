@@ -1,7 +1,7 @@
 const Filament = require('../models/filament-model');
 
 exports.filament_index = function(req, res) {
-  Filament.find()
+  Filament.find({ user: req.user.id })
     .then(filaments => res.json(filaments))
     .catch(err => res.status(400).json('Error: ' + err));
 }
@@ -22,6 +22,7 @@ exports.filament_create = function(req ,res) {
     size: req.body.size,
     printTemp: formatRange(req.body.printMinTemp, req.body.printMaxTemp),
     bedTemp: formatRange(req.body.bedMinTemp, req.body.bedMaxTemp),
+    user: req.user.id,
   });
 
   newFilament.save()
@@ -39,6 +40,7 @@ exports.filament_update = function(req, res) {
     size: req.body.size,
     printTemp: formatRange(req.body.printMinTemp, req.body.printMaxTemp),
     bedTemp: formatRange(req.body.bedMinTemp, req.body.bedMaxTemp),
+    user: req.user.id,
   })
     .then(() => res.json('Hotend updated!'))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -52,7 +54,7 @@ exports.filament_delete = function(req, res) {
 
 exports.filament_datalist = function(req, res) {
   let fields = (typeof req.query.fields === 'string') ? [req.query.fields] : req.query.fields;
-  Filament.find({}, fields)
+  Filament.find({ user: req.user.id }, fields)
     .then(data => {
       let datalist = {};
       fields.forEach(field => {

@@ -7,7 +7,7 @@ import {
 
 import PricingInputs from './components/pricing-inputs';
 
-function PricingPage() {
+export default function PricingPage() {
   let match = useRouteMatch();
 
   return (
@@ -18,5 +18,3 @@ function PricingPage() {
     </Switch>
   );
 }
-
-export default PricingPage;

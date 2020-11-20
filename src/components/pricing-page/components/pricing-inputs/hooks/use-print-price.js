@@ -22,6 +22,10 @@ function printPriceReducer(state, action) {
         failCost: failCost
       }
     }
+    
+    default: {
+      throw new Error(`Unhandled type: ${type}`)
+    }
   }
 }
 

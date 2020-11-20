@@ -4,7 +4,7 @@ const SET_FILAMENT = 'SET_FILAMENT'
 const SET_PRINTER = 'SET_PRINTER'
 
 function selectionReducer(state, action) {
-  const {filament, printer} = state
+  const {printer} = state
   const {type, item} = action
 
   switch (type) {
@@ -36,6 +36,10 @@ function selectionReducer(state, action) {
         ...state,
         printer: item,
       }
+    }
+
+    default: {
+      throw new Error(`Unhandled type: ${type}`)
     }
   }
 }

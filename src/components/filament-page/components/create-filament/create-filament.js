@@ -10,9 +10,6 @@ export default function CreateFilament() {
   }
 
   return (
-    <div className="container mt-4">
-      <h1>New Filament</h1>
-      <FilamentForm submitForm={submit} />
-    </div>
+    <FilamentForm title={"New Filament"} submitForm={submit} />
   );
 }
